@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LC3</title>
+</head>
+<body>
+    <input type="file" name="rom" id="rom">
+    <div id="root"></div>
+
+    <button id="run" disabled>Run</button>
+    <button id="step" disabled>Step</button>
+
+    <h4 id="output"></h4>
+
+    <script type="module">
+        import init, { loadimage, step } from "./pkg/lc3_core.js";
+
+        async function main() {
+            let initt = await init();
+            console.log(initt);
+        }
+        main();
+    
+        document.addEventListener("keypress", (event) => {
+            globalThis.keys = event.keyCode;
+        })
+
+        var rom = new Uint8Array();
+        let run_button = document.getElementById("run");
+        let step_button = document.getElementById("step");
+
+        run_button.addEventListener("click", () => {
+            console.log(rom);
+            loadimage(rom);
+        });
+
+        step_button.addEventListener("click", () => {
+            step();
+        });
+
+
+        // let file_upload = document.getElementById("rom").files[0]
+
+        function load_rom(file_upload) {
+            var file = file_upload.target.files[0];
+            if (file.type === "") {
+                console.log("Loading rom file");
+            }
+            var reader = new FileReader();
+            
+            reader.onload = function(anotherEvent) {
+                rom = Array.from(new Uint8Array(reader.result));
+            }
+            reader.readAsArrayBuffer(file);
+
+            run_button.disabled = false;
+            step_button.disabled = false;
+        }
+
+        document.getElementById("rom").addEventListener("change", load_rom, false);
+                
+    </script>
+</body>
+</html>
