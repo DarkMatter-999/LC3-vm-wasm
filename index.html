@@ -14,6 +14,7 @@
     <button id="step" disabled>Step</button>
 
     <h4 id="output"></h4>
+    <h4 id="disassembly"></h4>
 
     <script type="module">
         import init, { loadimage, step } from "./pkg/lc3_core.js";
@@ -35,6 +36,8 @@
         run_button.addEventListener("click", () => {
             console.log(rom);
             loadimage(rom);
+
+            setInterval(step, 100);
         });
 
         step_button.addEventListener("click", () => {

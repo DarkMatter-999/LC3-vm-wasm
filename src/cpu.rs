@@ -1,5 +1,6 @@
 use std::io::{self, Read};
 use std::io::Write;
+use crate::disassembler::disassemble;
 use crate::io::{get_key, print};
 use crate::memory::{Mem, self};
 use crate::instructions::*;
@@ -53,6 +54,8 @@ impl CPU {
 
     pub fn step(&mut self) {
         let inst = self.fetch();
+
+        disassemble(inst);
 
         let op = inst >> 12;
 
@@ -343,7 +346,7 @@ impl CPU {
     fn trap_getc(&mut self) {
         let ch = get_key();
 
-        print(ch);
+        // print(ch);
 
         self.rr0 = ch as u16;
 
@@ -376,6 +379,9 @@ impl CPU {
         }
 
         let char = get_key() as u16;
+
+        // print(char as u8);
+
         // let char = std::io::stdin()
         //         .bytes()
         //         .next()
