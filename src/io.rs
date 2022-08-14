@@ -11,6 +11,9 @@ extern { fn printdisassembly(data: char); }
 #[link(wasm_import_module = "../utils.js")]
 extern { fn getkey() -> u8; }
 
+#[link(wasm_import_module = "../utils.js")]
+extern { fn printpc(pc: usize); }
+
 pub fn get_key() -> u8 {
     let key = unsafe { getkey() };
 
@@ -28,4 +31,8 @@ pub fn printstr(string: String) {
         unsafe { printdisassembly(s) }
     }
     unsafe { printdisassembly('\n') }
+}
+
+pub fn pushpc(pc: usize) {
+    unsafe { printpc(pc) }
 }

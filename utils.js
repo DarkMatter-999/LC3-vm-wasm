@@ -51,3 +51,7 @@ export function printdisassembly(c) {
 
     globalThis.debugbuffer += output;
 }
+
+export function printpc(pc) {
+    document.getElementById("pc").innerText = "0x" + Number(pc).toString(16);
+}

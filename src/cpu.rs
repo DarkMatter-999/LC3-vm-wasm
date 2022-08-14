@@ -1,7 +1,7 @@
 use std::io::{self, Read};
 use std::io::Write;
 use crate::disassembler::disassemble;
-use crate::io::{get_key, print};
+use crate::io::{get_key, print, pushpc};
 use crate::memory::{Mem, self};
 use crate::instructions::*;
 
@@ -56,6 +56,8 @@ impl CPU {
         let inst = self.fetch();
 
         disassemble(inst);
+
+        pushpc(self.pc);
 
         let op = inst >> 12;
 
