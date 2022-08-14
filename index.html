@@ -24,6 +24,9 @@
             console.log(initt);
         }
         main();
+
+        globalThis.outputbuffer = "";
+        globalThis.debugbuffer = ""
     
         document.addEventListener("keypress", (event) => {
             globalThis.keys = event.keyCode;
