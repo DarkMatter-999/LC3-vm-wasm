@@ -51,9 +51,9 @@ pub fn disassemble(inst: u16) {
             /* first operand (SR1) */
             let r1 = get_reg((inst >> 6) & 0x7);
             /* whether we are in immediate mode */
-            let imm_flag = (((inst >> 5) & 0x1) != 0) as u8;
+            let imm_flag = ((inst >> 5) & 0x1) as u8;
 
-            printstr(format!("{:?} : {}  {} #{}", OPCodes::from(op), r0, r1, imm_flag));
+            printstr(format!("{:?} : {}  {} #0x{:x}", OPCodes::from(op), r0, r1, imm_flag));
         },
         OPCodes::OpLd | OPCodes::OpSt => {
             let r0 = get_reg((inst >> 9) & 0x7);

@@ -8,18 +8,58 @@
     <title>LC3</title>
 </head>
 <body>
-    <input type="file" name="rom" id="rom">
-    <div id="root"></div>
+    <nav>
+        <div class="header">
+            LC3-Emulator
+        </div>
+    </nav>
+    <div class="controls">
+        <input type="file" name="rom" id="rom">
+        <div id="root"></div>
 
-    <button id="run" disabled>Run</button>
-    <button id="step" disabled>Step</button>
+        <button id="run" disabled>Run</button>
+        <button id="step" disabled>Step</button>
+        <button id="stop">Stop</button>
+    </div>
+
+    <div class="registers">
+        <table>
+            <tr>
+                <th>R0</th>
+                <th>R1</th>
+                <th>R2</th>
+                <th>R3</th>
+                <th>R4</th>
+                <th>R5</th>
+                <th>R6</th>
+                <th>R7</th>
+                <th>RPc</th>
+                <th>RCond</th>
+            </tr>
+            <tr>
+                <td id="r0">0</td>
+                <td id="r1">0</td>
+                <td id="r2">0</td>
+                <td id="r3">0</td>
+                <td id="r4">0</td>
+                <td id="r5">0</td>
+                <td id="r6">0</td>
+                <td id="r7">0</td>
+                <td id="r8">0</td>
+                <td id="r9">0</td>
+            </tr>
+        </table>
+    </div>
 
     <div class="debug">
         <h1 id="pc"></h1>
     </div>
 
-    <h4 id="output"></h4>
-    <h4 id="disassembly"></h4>
+    <div id="output-container">
+        <div id="output">  </div>
+        <div id="current">  </div>
+    </div>
+    <div id="disassembly">  </div>
 
     <script type="module">
         import init, { loadimage, step } from "./pkg/lc3_core.js";
@@ -31,7 +71,9 @@
         main();
 
         globalThis.outputbuffer = "";
-        globalThis.debugbuffer = ""
+        globalThis.debugbuffer = "";
+        globalThis.isRunning = false;
+        globalThis.keys = 0;
     
         document.addEventListener("keypress", (event) => {
             globalThis.keys = event.keyCode;
@@ -43,13 +85,22 @@
 
         run_button.addEventListener("click", () => {
             console.log(rom);
+            globalThis.isRunning = true;
             loadimage(rom);
 
-            setInterval(step, 100);
+            setInterval(() => {
+                if(globalThis.isRunning) {
+                    step();
+                }
+            }, 1);
         });
 
         step_button.addEventListener("click", () => {
             step();
+        });
+
+        document.getElementById("stop").addEventListener("click", () => {
+            globalThis.isRunning = !globalThis.isRunning;
         });
 
 

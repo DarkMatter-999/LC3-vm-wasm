@@ -6,7 +6,9 @@ export function getkey() {
 }
 
 export function printlog(c) {
+    // console.log(c);
     if(c === 10) {
+        document.getElementById("current").innerText = "";
         println();
     }
     // var output = document.getElementById("output").innerText;
@@ -20,13 +22,13 @@ export function printlog(c) {
 
     globalThis.outputbuffer += output;
 
-    // document.getElementById("output").innerText = output;
+    document.getElementById("current").innerText += output;
     // console.log(c + "  " + String.fromCharCode(c));
     // console.log(String.fromCharCode(c));
 }
 
 export function println() {
-    document.getElementById("output").innerText += globalThis.outputbuffer;
+    document.getElementById("output").innerText = document.getElementById("output").innerText + globalThis.outputbuffer;
 
     globalThis.outputbuffer = "";
 }
@@ -54,4 +56,8 @@ export function printdisassembly(c) {
 
 export function printpc(pc) {
     document.getElementById("pc").innerText = "0x" + Number(pc).toString(16);
+}
+
+export function printreg(number, value) {
+    document.getElementById("r"+number).innerText = "0x" + Number(value).toString(16);
 }

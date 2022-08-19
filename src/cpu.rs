@@ -1,7 +1,7 @@
 use std::io::{self, Read};
 use std::io::Write;
 use crate::disassembler::disassemble;
-use crate::io::{get_key, print, pushpc};
+use crate::io::{get_key, print, pushpc, pushreg};
 use crate::memory::{Mem, self};
 use crate::instructions::*;
 
@@ -58,6 +58,7 @@ impl CPU {
         disassemble(inst);
 
         pushpc(self.pc);
+        pushreg(self);
 
         let op = inst >> 12;
 
@@ -121,7 +122,7 @@ impl CPU {
         return x;
     }
 
-    fn get_reg(&mut self, r: u16) -> &u16 {
+    pub fn get_reg(&mut self, r: u16) -> &u16 {
         match r {
             0 => &self.rr0,
             1 => &self.rr1,
